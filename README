@@ -1,0 +1,72 @@
+jbloom - jni-powered bloom filters for java
+written by John Muellerleile (@jrecursive)
+
+* jbloom is a java native interface wrapper around a modified version of open bloom
+* serialize / deserialize compatible with ebloom (erlang NIF) http://bitbucket.org/basho/ebloom/
+* see src/jbloom/TestJBloom.java for an introduction to all the functions.
+* i'll update the build process to something sane soon, until then -- sorry, see build_osx.sh or build_linux.sh, depending.
+* the build process currently creates 64 bit binaries
+* build should output something like this if successful:
+
+cleaning...
+javac...
+javah...
+build native lib...
+run jbloom.test
+b1.contains('JBloom') = true
+b1.contains('giraffes') = false
+JBloom.effectiveFPP() = 1.4086502789328668E-27
+
+JBloom.intersect(b1, b2)
+b1.contains('JBloom') = false
+b1.contains('lucky') = true
+b1.contains('lobster') = false
+
+JBloom.union(b1, b3)
+b1.contains('lucky') = true
+b1.contains('lobster') = true
+b1.contains('JBloom') = true
+
+JBloom.difference(b1, b3);
+b1.contains('giraffes') = false
+b1.contains('trees') = true
+b1.contains('sharks') = true
+b1.contains('lucky') = false
+
+b1.serialize();
+
+bytes.length = 12068
+b4.contains('giraffes') = false
+b4.contains('trees') = true
+b4.contains('sharks') = true
+b4.contains('lucky') = false
+
+performing 1m inserts...
+1m inserts took 1371ms
+
+10% fpp, serialized size is 601101 bytes and took 17ms
+
+sanity check
+
+0: true
+1: true
+2: true
+3: true
+4: true
+5: true
+6: true
+7: true
+8: true
+9: true
+2000000: false
+2000001: false
+2000002: false
+2000003: false
+2000004: true
+2000005: false
+2000006: false
+2000007: false
+2000008: false
+2000009: false
+
+* enjoy!
